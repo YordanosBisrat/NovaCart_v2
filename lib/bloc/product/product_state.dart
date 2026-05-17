@@ -13,14 +13,24 @@ class ProductInitial extends ProductState {}
 // Loading state
 class ProductLoading extends ProductState {}
 
-// Loaded state
+// Loaded state — used for initial fetch only
 class ProductLoaded extends ProductState {
-  final List products;
+  final List<Map<String, dynamic>> products;
 
   const ProductLoaded(this.products);
 
   @override
   List<Object> get props => [products];
+}
+
+// CUD operation success — extends ProductLoaded so builder still renders the list
+class ProductOperationSuccess extends ProductLoaded {
+  final String message;
+
+  const ProductOperationSuccess(super.products, this.message);
+
+  @override
+  List<Object> get props => [products, message];
 }
 
 // Error state

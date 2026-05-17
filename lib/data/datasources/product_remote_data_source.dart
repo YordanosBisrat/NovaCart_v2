@@ -12,14 +12,19 @@ class ProductRemoteDataSource {
     return response.data;
   }
 
-  // ADD product
-  Future<void> addProduct(Map<String, dynamic> data) async {
-    await client.post(ApiEndpoints.products, data);
+  // ADD product — returns the created product map
+  Future<Map<String, dynamic>> addProduct(Map<String, dynamic> data) async {
+    final response = await client.post(ApiEndpoints.products, data);
+    return Map<String, dynamic>.from(response.data);
   }
 
-  // UPDATE product
-  Future<void> updateProduct(int id, Map<String, dynamic> data) async {
-    await client.put("${ApiEndpoints.products}/$id", data);
+  // UPDATE product — returns the updated product map
+  Future<Map<String, dynamic>> updateProduct(
+    int id,
+    Map<String, dynamic> data,
+  ) async {
+    final response = await client.put("${ApiEndpoints.products}/$id", data);
+    return Map<String, dynamic>.from(response.data);
   }
 
   // DELETE product

@@ -18,49 +18,70 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
     LoadProducts event,
     Emitter<ProductState> emit,
   ) async {
-    emit(ProductLoading());
     try {
-      final products = await dataSource.getProducts();
+      emit(ProductLoading());
+      final raw = await dataSource.getProducts();
+      final products = raw.cast<Map<String, dynamic>>();
       emit(ProductLoaded(products));
     } catch (e) {
       emit(ProductError("Failed to load products"));
     }
   }
 
-  // CREATE
+  // CREATE — add to local list, no re-fetch
   Future<void> _onAddProduct(
     AddProduct event,
     Emitter<ProductState> emit,
   ) async {
+    final currentState = state;
+    if (currentState is! ProductLoaded) return;
     try {
-      await dataSource.addProduct(event.product);
-      add(LoadProducts());
+      emit(ProductLoading());
+      final newProduct = await dataSource.addProduct(event.product);
+      final updated = List<Map<String, dynamic>>.from(currentState.products)
+        ..add(newProduct);
+      emit(ProductOperationSuccess(updated, "Product added"));
     } catch (e) {
       emit(ProductError("Failed to add product"));
     }
   }
 
-  // UPDATE
+  // UPDATE — update in local list, no re-fetch
   Future<void> _onUpdateProduct(
     UpdateProduct event,
     Emitter<ProductState> emit,
   ) async {
+    final currentState = state;
+    if (currentState is! ProductLoaded) return;
     try {
-      await dataSource.updateProduct(event.id, event.product);
-      add(LoadProducts());
+      emit(ProductLoading());
+      final updatedProduct = await dataSource.updateProduct(
+        event.id,
+        event.product,
+      );
+      final updated = currentState.products.map((p) {
+        return p['id'] == event.id ? updatedProduct : p;
+      }).toList();
+      emit(ProductOperationSuccess(updated, "Product updated"));
     } catch (e) {
       emit(ProductError("Failed to update product"));
     }
   }
 
-  // DELETE
+  // DELETE — remove from local list, no re-fetch
   Future<void> _onDeleteProduct(
     DeleteProduct event,
     Emitter<ProductState> emit,
   ) async {
+    final currentState = state;
+    if (currentState is! ProductLoaded) return;
     try {
+      emit(ProductLoading());
       await dataSource.deleteProduct(event.id);
-      add(LoadProducts());
+      final updated = currentState.products
+          .where((p) => p['id'] != event.id)
+          .toList();
+      emit(ProductOperationSuccess(updated, "Product deleted"));
     } catch (e) {
       emit(ProductError("Failed to delete product"));
     }

@@ -14,39 +14,12 @@ class DioClient {
         ),
       );
 
-  // GET
-  Future<Response> get(String path) async {
-    try {
-      return await dio.get(path);
-    } catch (e) {
-      rethrow;
-    }
-  }
+  Future<Response> get(String path) => dio.get(path);
 
-  // POST
-  Future<Response> post(String path, dynamic data) async {
-    try {
-      return await dio.post(path, data: data);
-    } catch (e) {
-      rethrow;
-    }
-  }
+  Future<Response> post(String path, dynamic data) =>
+      dio.post(path, data: data);
 
-  // PUT
-  Future<Response> put(String path, dynamic data) async {
-    try {
-      return await dio.put(path, data: data);
-    } catch (e) {
-      rethrow;
-    }
-  }
+  Future<Response> put(String path, dynamic data) => dio.put(path, data: data);
 
-  // DELETE
-  Future<Response> delete(String path) async {
-    try {
-      return await dio.delete(path);
-    } catch (e) {
-      rethrow;
-    }
-  }
+  Future<Response> delete(String path) => dio.delete(path);
 }
