@@ -4,6 +4,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../bloc/product/product_bloc.dart';
 import '../../bloc/product/product_event.dart';
 import '../../bloc/product/product_state.dart';
+import 'add_product_screen.dart';
+import 'edit_product_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -52,6 +54,18 @@ class HomeScreen extends StatelessWidget {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         IconButton(
+                          icon: const Icon(Icons.edit, color: Colors.blue),
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (_) =>
+                                    EditProductScreen(product: product),
+                              ),
+                            );
+                          },
+                        ),
+                        IconButton(
                           icon: const Icon(Icons.delete, color: Colors.red),
                           onPressed: () {
                             context.read<ProductBloc>().add(
@@ -73,15 +87,9 @@ class HomeScreen extends StatelessWidget {
 
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          // TEMP: simple test add (we will improve forms later)
-          context.read<ProductBloc>().add(
-            AddProduct({
-              "title": "Test Product",
-              "price": 10,
-              "description": "Demo",
-              "image": "https://i.pravatar.cc",
-              "category": "test",
-            }),
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (_) => const AddProductScreen()),
           );
         },
         child: const Icon(Icons.add),
