@@ -16,19 +16,22 @@ class HomeScreen extends StatelessWidget {
       appBar: AppBar(
         title: const Text(
           "NovaCart v2",
-          style: TextStyle(fontWeight: FontWeight.w600),
+          style: TextStyle(fontWeight: FontWeight.w600, color: Colors.white),
         ),
         centerTitle: true,
         actions: [
-          // Product count chip — reads current count from state
           BlocBuilder<ProductBloc, ProductState>(
             builder: (context, state) {
               final count = state is ProductLoaded ? state.products.length : 0;
               return Padding(
                 padding: const EdgeInsets.only(right: 12),
                 child: Chip(
-                  label: Text("$count", style: const TextStyle(fontSize: 12)),
+                  label: Text(
+                    "$count",
+                    style: const TextStyle(fontSize: 12, color: Colors.white),
+                  ),
                   visualDensity: VisualDensity.compact,
+                  backgroundColor: const Color(0xFF676F9D),
                 ),
               );
             },
@@ -39,22 +42,27 @@ class HomeScreen extends StatelessWidget {
       body: BlocConsumer<ProductBloc, ProductState>(
         listener: (context, state) {
           if (state is ProductOperationSuccess) {
-            ScaffoldMessenger.of(
-              context,
-            ).showSnackBar(SnackBar(content: Text(state.message)));
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text(state.message),
+                backgroundColor: const Color(0xFFFAB17A),
+              ),
+            );
           }
           if (state is ProductError) {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
                 content: Text(state.message),
-                backgroundColor: Colors.red,
+                backgroundColor: Colors.redAccent,
               ),
             );
           }
         },
         builder: (context, state) {
           if (state is ProductLoading) {
-            return const Center(child: CircularProgressIndicator());
+            return const Center(
+              child: CircularProgressIndicator(color: Color(0xFFFAB17A)),
+            );
           }
 
           if (state is ProductError) {
@@ -71,7 +79,7 @@ class HomeScreen extends StatelessWidget {
                   Text(
                     state.message,
                     textAlign: TextAlign.center,
-                    style: const TextStyle(fontSize: 14),
+                    style: const TextStyle(fontSize: 14, color: Colors.white70),
                   ),
                   const SizedBox(height: 10),
                   ElevatedButton(
@@ -95,7 +103,7 @@ class HomeScreen extends StatelessWidget {
                     Icon(
                       Icons.inventory_2_outlined,
                       size: 60,
-                      color: Colors.grey,
+                      color: Color(0xFF676F9D),
                     ),
                     SizedBox(height: 12),
                     Text(
@@ -103,12 +111,13 @@ class HomeScreen extends StatelessWidget {
                       style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w600,
+                        color: Colors.white,
                       ),
                     ),
                     SizedBox(height: 6),
                     Text(
                       "Tap + to add your first product",
-                      style: TextStyle(color: Colors.grey),
+                      style: TextStyle(color: Color(0xFF676F9D)),
                     ),
                   ],
                 ),
@@ -116,6 +125,7 @@ class HomeScreen extends StatelessWidget {
             }
 
             return ListView.builder(
+              padding: const EdgeInsets.only(top: 8, bottom: 80),
               itemCount: products.length,
               itemBuilder: (context, index) {
                 final product = products[index];
@@ -128,7 +138,10 @@ class HomeScreen extends StatelessWidget {
                   elevation: 0,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(14),
-                    side: BorderSide(color: Colors.grey.shade200),
+                    side: const BorderSide(
+                      color: Color(0xFF676F9D),
+                      width: 0.5,
+                    ),
                   ),
                   child: Padding(
                     padding: const EdgeInsets.symmetric(
@@ -143,13 +156,16 @@ class HomeScreen extends StatelessWidget {
                         height: 55,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10),
-                          color: const Color(0xFFF3F4FF),
+                          color: const Color(0xFF2D3250),
                         ),
                         child: Image.network(
                           product['image'],
                           fit: BoxFit.contain,
                           errorBuilder: (context, error, stackTrace) =>
-                              const Icon(Icons.image_not_supported),
+                              const Icon(
+                                Icons.image_not_supported,
+                                color: Color(0xFF676F9D),
+                              ),
                         ),
                       ),
 
@@ -157,13 +173,16 @@ class HomeScreen extends StatelessWidget {
                         product['title'],
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
-                        style: const TextStyle(fontWeight: FontWeight.w600),
+                        style: const TextStyle(
+                          fontWeight: FontWeight.w600,
+                          color: Colors.white,
+                        ),
                       ),
 
                       subtitle: Text(
                         "\$${(product['price'] as num).toStringAsFixed(2)}",
                         style: const TextStyle(
-                          color: Color(0xFF4F46E5),
+                          color: Color(0xFFFAB17A),
                           fontWeight: FontWeight.bold,
                         ),
                       ),
@@ -172,7 +191,10 @@ class HomeScreen extends StatelessWidget {
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           IconButton(
-                            icon: const Icon(Icons.edit, color: Colors.blue),
+                            icon: const Icon(
+                              Icons.edit,
+                              color: Color(0xFF676F9D),
+                            ),
                             onPressed: () {
                               Navigator.push(
                                 context,
@@ -184,25 +206,43 @@ class HomeScreen extends StatelessWidget {
                             },
                           ),
                           IconButton(
-                            icon: const Icon(Icons.delete, color: Colors.red),
+                            icon: const Icon(
+                              Icons.delete,
+                              color: Color(0xFFFAB17A),
+                            ),
                             onPressed: () async {
                               final confirm = await showDialog<bool>(
                                 context: context,
                                 builder: (context) => AlertDialog(
-                                  title: const Text("Delete Product"),
+                                  backgroundColor: const Color(0xFF424769),
+                                  title: const Text(
+                                    "Delete Product",
+                                    style: TextStyle(color: Colors.white),
+                                  ),
                                   content: const Text(
                                     "Are you sure you want to delete this product?",
+                                    style: TextStyle(color: Colors.white70),
                                   ),
                                   actions: [
                                     TextButton(
                                       onPressed: () =>
                                           Navigator.pop(context, false),
-                                      child: const Text("Cancel"),
+                                      child: const Text(
+                                        "Cancel",
+                                        style: TextStyle(
+                                          color: Color(0xFF676F9D),
+                                        ),
+                                      ),
                                     ),
                                     TextButton(
                                       onPressed: () =>
                                           Navigator.pop(context, true),
-                                      child: const Text("Delete"),
+                                      child: const Text(
+                                        "Delete",
+                                        style: TextStyle(
+                                          color: Color(0xFFFAB17A),
+                                        ),
+                                      ),
                                     ),
                                   ],
                                 ),

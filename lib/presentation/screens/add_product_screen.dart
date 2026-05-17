@@ -56,12 +56,21 @@ class _AddProductScreenState extends State<AddProductScreen> {
         if (state is ProductError) {
           setState(() => isLoading = false);
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text(state.message), backgroundColor: Colors.red),
+            SnackBar(
+              content: Text(state.message),
+              backgroundColor: Colors.redAccent,
+            ),
           );
         }
       },
       child: Scaffold(
-        appBar: AppBar(title: const Text("Add Product")),
+        appBar: AppBar(
+          title: const Text(
+            "Add Product",
+            style: TextStyle(color: Colors.white),
+          ),
+          iconTheme: const IconThemeData(color: Colors.white),
+        ),
         body: SingleChildScrollView(
           padding: const EdgeInsets.all(16),
           child: Form(
@@ -70,6 +79,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
               children: [
                 TextFormField(
                   controller: titleController,
+                  style: const TextStyle(color: Colors.white),
                   decoration: const InputDecoration(labelText: "Title"),
                   validator: (value) {
                     if (value == null || value.trim().isEmpty) {
@@ -83,6 +93,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
 
                 TextFormField(
                   controller: priceController,
+                  style: const TextStyle(color: Colors.white),
                   decoration: const InputDecoration(labelText: "Price"),
                   keyboardType: TextInputType.number,
                   validator: (value) {
@@ -100,7 +111,9 @@ class _AddProductScreenState extends State<AddProductScreen> {
 
                 TextFormField(
                   controller: descriptionController,
+                  style: const TextStyle(color: Colors.white),
                   decoration: const InputDecoration(labelText: "Description"),
+                  maxLines: 3,
                   validator: (value) {
                     if (value == null || value.trim().isEmpty) {
                       return "Please enter a description";
@@ -113,6 +126,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
 
                 TextFormField(
                   controller: imageController,
+                  style: const TextStyle(color: Colors.white),
                   decoration: const InputDecoration(labelText: "Image URL"),
                 ),
 

@@ -26,18 +26,50 @@ class MyApp extends StatelessWidget {
         title: 'NovaCart v2',
         theme: ThemeData(
           useMaterial3: true,
-          colorSchemeSeed: const Color(0xFF4F46E5),
-          scaffoldBackgroundColor: const Color(0xFFF8F7FC),
+          brightness: Brightness.dark,
+          colorSchemeSeed: const Color(0xFFFAB17A),
+          scaffoldBackgroundColor: const Color(0xFF2D3250),
           appBarTheme: const AppBarTheme(
             centerTitle: true,
             elevation: 0,
-            backgroundColor: Colors.white,
+            backgroundColor: Color(0xFF2D3250),
+            foregroundColor: Colors.white,
           ),
-          chipTheme: const ChipThemeData(backgroundColor: Color(0xFFF0F1FF)),
+          cardTheme: const CardThemeData(color: Color(0xFF424769)),
+          chipTheme: const ChipThemeData(
+            backgroundColor: Color(0xFF424769),
+            labelStyle: TextStyle(color: Colors.white),
+          ),
+          floatingActionButtonTheme: const FloatingActionButtonThemeData(
+            backgroundColor: Color(0xFFFAB17A),
+            foregroundColor: Colors.white,
+          ),
+          elevatedButtonTheme: ElevatedButtonThemeData(
+            style: ElevatedButton.styleFrom(
+              backgroundColor: const Color(0xFFFAB17A),
+              foregroundColor: Colors.white,
+              minimumSize: const Size(double.infinity, 48),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12),
+              ),
+            ),
+          ),
           inputDecorationTheme: InputDecorationTheme(
             filled: true,
-            fillColor: Colors.white,
-            border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+            fillColor: const Color(0xFF424769),
+            labelStyle: const TextStyle(color: Color(0xFF676F9D)),
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12),
+              borderSide: const BorderSide(color: Color(0xFF676F9D)),
+            ),
+            enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12),
+              borderSide: const BorderSide(color: Color(0xFF676F9D)),
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12),
+              borderSide: const BorderSide(color: Color(0xFFFAB17A), width: 2),
+            ),
             contentPadding: const EdgeInsets.symmetric(
               horizontal: 14,
               vertical: 14,
